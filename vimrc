@@ -17,14 +17,15 @@ set wildmenu
 set wildmode=list:longest
 set visualbell
 set ttyfast
-"set ruler
 set backspace=indent,eol,start
 set laststatus=2
 set number
-"set shell=/bin/sh " work with RVM I guess
+set nowrap
 "
 " interpret jBuilder as ruby
 au BufRead,BufNewFile *.jbuilder set filetype=ruby syntax=ruby
+" interprest EJS as html
+au BufNewFile,BufRead *.ejs set filetype=html
 
 " Default indentation settings
 set tabstop=2
@@ -37,10 +38,10 @@ set expandtab
 set list listchars=tab:▸\ ,trail:· "show trailing whitespace
 
 " Folding settings
-set foldmethod=syntax
-set foldnestmax=5
-set foldlevel=50
-set foldcolumn=0
+"set foldmethod=syntax
+"set foldnestmax=5
+"set foldlevel=50
+"set foldcolumn=0
 
 " Disables matchparen -- for performance reasons
 let loaded_matchparen = 1
@@ -57,10 +58,6 @@ nnoremap <leader><space> :noh<cr>
 " No idea what it does, or where it came from
 nnoremap <tab> %
 vnoremap <tab> %
-
-" Ummm... probably from @dorkitude
-set selectmode=""
-set backspace=indent,eol,start whichwrap+=<,>,[,]
 
 " disable help key
 inoremap <F1> <ESC>
@@ -80,16 +77,6 @@ nnoremap <C-l> <C-w>l
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 
-" Set minheights to work with horizontal split navigation
-" if !&diff
-"   " we have to have a winheight bigger than we want to set winminheight, but if
-"   " we set winheight to be huge before winminheight, winminheight set will always
-"   " fail
-"   set winheight=5
-"   set winminheight=5
-"   set winheight=999
-" endif
-
 " --------------------------------------------------------
 " Editing .vimrc
 " --------------------------------------------------------
@@ -108,20 +95,7 @@ augroup END
 " --------------------------------------------------------
 
 " Setup leader for Ack
-nnoremap <leader>a :Ack 
-
-" Setup leader for Commant-T
-nmap <leader>f :CommandTFlush<cr>\|:CommandT<cr>
-
-set wildignore=node_modules/**
-
-" Fix esc and cursor key navigation in command-t
-set ttimeoutlen=50
-if &term =~ "xterm" || &term =~ "screen"
-  let g:CommandTCancelMap     = ['<ESC>', '<C-c>']
-  let g:CommandTSelectNextMap = ['<C-n>', '<C-j>', '<ESC>OB']
-  let g:CommandTSelectPrevMap = ['<C-p>', '<C-k>', '<ESC>OA']
-endif
+nnoremap <leader>a :Ack
 
 " --------------------------------------------------------
 " Ruby test runner
@@ -214,3 +188,12 @@ function! RunTests(filename)
         end
     end
 endfunction
+
+function! WordProcessorMode()
+    setlocal formatoptions=t1
+    setlocal textwidth=80
+    setlocal smartindent
+    setlocal spell spelllang=en_us
+    setlocal noexpandtab
+endfunction
+com! WP call WordProcessorMode()
