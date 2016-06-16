@@ -6,10 +6,6 @@ set modelines=0
 set encoding=utf-8
 set scrolloff=3
 set smartindent
-set smarttab
-set expandtab
-set tabstop=2
-set shiftwidth=2
 set showmode
 set showcmd
 set hidden
@@ -21,6 +17,9 @@ set backspace=indent,eol,start
 set laststatus=2
 set number
 set nowrap
+"set background=light
+"let g:solarized_termcolors=256
+"colorscheme solarized
 "
 " interpret jBuilder as ruby
 au BufRead,BufNewFile *.jbuilder set filetype=ruby syntax=ruby
@@ -32,6 +31,7 @@ set tabstop=2
 set shiftwidth=2
 set softtabstop=2
 set expandtab
+set smarttab
 "set colorcolumn=80
 
 " textmate style whitespace charts (show tabs and spaces)
@@ -55,9 +55,11 @@ set incsearch
 set hlsearch
 nnoremap <leader><space> :noh<cr>
 
-" No idea what it does, or where it came from
-nnoremap <tab> %
-vnoremap <tab> %
+" redraw screen quickly
+nmap <leader>r :redraw!<cr>
+
+" rack console
+nmap <leader>c :w \| !foreman run racksh<cr>
 
 " disable help key
 inoremap <F1> <ESC>
@@ -137,7 +139,7 @@ nnoremap <leader>et :call OpenTestAlternate()<cr>
 map <leader>t :call RunTestFile()<cr>
 map <leader>rt :call RunNearestTest()<cr>
 map <leader>. :call RunTests('')<cr>
-map <leader>c :w\|:!script/acceptance<cr>
+"map <leader>c :w\|:!script/acceptance<cr>
 map <leader>w :w\|:!script/acceptance --profile wip<cr>
 
 function! RunTestFile(...)
@@ -177,14 +179,14 @@ function! RunTests(filename)
     :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
     :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
     if match(a:filename, '\.feature$') != -1
-        exec ":!script/acceptance " . a:filename
+        exec ":!xvfb-run script/acceptance " . a:filename
     else
         if filereadable("script/test.rb")
-            exec ":!ruby script/test.rb " . a:filename
+            exec ":!xvfb-run ruby script/test.rb " . a:filename
         elseif filereadable("Gemfile")
-            exec ":!bundle exec rspec --color " . a:filename
+            exec ":!xvfb-run bundle exec rspec --color " . a:filename
         else
-            exec ":!rspec --color " . a:filename
+            exec ":!xvfb-run rspec --color " . a:filename
         end
     end
 endfunction
