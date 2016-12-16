@@ -56,10 +56,12 @@ set hlsearch
 nnoremap <leader><space> :noh<cr>
 
 " redraw screen quickly
-nmap <leader>r :redraw!<cr>
+"nmap <leader>r :redraw!<cr>
 
 " rack console
-nmap <leader>c :w \| !foreman run racksh<cr>
+nmap <leader>r :w \| !foreman run racksh<cr>
+" start server
+nmap <leader>f :w \| !foreman start<cr>
 
 " disable help key
 inoremap <F1> <ESC>
@@ -179,14 +181,14 @@ function! RunTests(filename)
     :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
     :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
     if match(a:filename, '\.feature$') != -1
-        exec ":!xvfb-run script/acceptance " . a:filename
+        exec ":!script/acceptance " . a:filename
     else
         if filereadable("script/test.rb")
-            exec ":!xvfb-run ruby script/test.rb " . a:filename
+            exec ":!ruby script/test.rb " . a:filename
         elseif filereadable("Gemfile")
-            exec ":!xvfb-run bundle exec rspec --color " . a:filename
+            exec ":!bundle exec rspec --color " . a:filename
         else
-            exec ":!xvfb-run rspec --color " . a:filename
+            exec ":!rspec --color " . a:filename
         end
     end
 endfunction
@@ -197,5 +199,28 @@ function! WordProcessorMode()
     setlocal smartindent
     setlocal spell spelllang=en_us
     setlocal noexpandtab
+    execute 'topleft' ((&columns - &textwidth) / 2 - 1) . 'vsplit _paddding_' | wincmd p
 endfunction
+
+let g:centerinscreen_active = 0
+function! ToggleCenterInScreen(desired_width)
+  if g:centerinscreen_active == 0
+    let l:window_width = winwidth(winnr())
+    let l:sidepanel_width = (l:window_width - a:desired_width) / 2
+    exec("silent leftabove " . l:sidepanel_width . "vsplit __padding__")
+    wincmd l
+    exec("silent rightbelow " . l:sidepanel_width . "vsplit __padding__")
+    wincmd h
+    let g:centerinscreen_active = 1
+  else
+    wincmd h
+    close
+    wincmd l
+    close
+    let g:centerinscreen_active = 0
+  endif
+endfunction
+
 com! WP call WordProcessorMode()
+com! C call ToggleCenterInScreen(100)
+

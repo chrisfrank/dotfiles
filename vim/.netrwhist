@@ -1,6 +1,5 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =4
-let g:netrw_dirhist_1='/home/ubuntu/go/config'
-let g:netrw_dirhist_2='/home/ubuntu/airtable-ruby/lib/airtable'
-let g:netrw_dirhist_3='/home/ubuntu/go/views/redirects'
-let g:netrw_dirhist_4='/home/ubuntu/go/models'
+let g:netrw_dirhist_cnt =3
+let g:netrw_dirhist_1='/Users/chrisfrank/code/future-api/helpers'
+let g:netrw_dirhist_2='/Users/chrisfrank/code/future-api/spec'
+let g:netrw_dirhist_3='/Users/chrisfrank/code/future-schools'
