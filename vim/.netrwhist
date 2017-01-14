@@ -1,5 +1,5 @@
 let g:netrw_dirhistmax  =10
 let g:netrw_dirhist_cnt =3
-let g:netrw_dirhist_1='/Users/chrisfrank/code/future-api/helpers'
-let g:netrw_dirhist_2='/Users/chrisfrank/code/future-api/spec'
-let g:netrw_dirhist_3='/Users/chrisfrank/code/future-schools'
+let g:netrw_dirhist_1='/Users/chrisfrank/code/momentous/app/assets/stylesheets/modules'
+let g:netrw_dirhist_2='/Users/chrisfrank/code/momentous/config'
+let g:netrw_dirhist_3='/usr/bin'
