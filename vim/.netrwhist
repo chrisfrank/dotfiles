@@ -1,5 +1,4 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =3
-let g:netrw_dirhist_1='/Users/chrisfrank/code/momentous/app/assets/stylesheets/modules'
-let g:netrw_dirhist_2='/Users/chrisfrank/code/momentous/config'
-let g:netrw_dirhist_3='/usr/bin'
+let g:netrw_dirhist_cnt =2
+let g:netrw_dirhist_1='/Users/chrisfrank/code/revlove-vday/public/sass/modules'
+let g:netrw_dirhist_2='/Users/chrisfrank/code/momentous/.git'

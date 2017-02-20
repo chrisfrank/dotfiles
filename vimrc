@@ -25,6 +25,8 @@ set nowrap
 au BufRead,BufNewFile *.jbuilder set filetype=ruby syntax=ruby
 " interprest EJS as html
 au BufNewFile,BufRead *.ejs set filetype=html
+" highlight jsx syntax in .js files
+let g:jsx_ext_required = 0
 
 " Default indentation settings
 set tabstop=2
@@ -59,9 +61,9 @@ nnoremap <leader><space> :noh<cr>
 "nmap <leader>r :redraw!<cr>
 
 " rack console
-nmap <leader>r :w \| !foreman run racksh<cr>
+nmap <leader>c :w \| !rake console<cr>
 " start server
-nmap <leader>f :w \| !foreman start<cr>
+nmap <leader>s :w \| !rake start<cr>
 
 " disable help key
 inoremap <F1> <ESC>
@@ -90,8 +92,8 @@ nmap <leader>ev :sp ~/.vimrc<cr>
 
 " Automatically reload vimrc on save
 augroup myvimrchooks
-  au!
-  autocmd bufwritepost .vimrc source ~/.vimrc
+au!
+autocmd bufwritepost .vimrc source ~/.vimrc
 augroup END
 
 " --------------------------------------------------------
@@ -109,29 +111,29 @@ nnoremap <leader>a :Ack
 " SWITCH BETWEEN TEST AND PRODUCTION CODE
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! OpenTestAlternate()
-  let new_file = AlternateForCurrentFile()
-  exec ':e ' . new_file
+let new_file = AlternateForCurrentFile()
+exec ':e ' . new_file
 endfunction
 function! AlternateForCurrentFile()
-  let current_file = expand("%")
-  let new_file = current_file
-  let in_spec = match(current_file, '^spec/') != -1
-  let going_to_spec = !in_spec
-  let in_app = match(current_file, '\<controllers\>') != -1 || match(current_file, '\<exhibits\>') != -1 || match(current_file, '\<services\>') != -1 || match(current_file, '\<models\>') != -1 || match(current_file, '\<views\>') != -1
-  if going_to_spec
-    if in_app
-      let new_file = substitute(new_file, '^app/', '', '')
-    end
-    let new_file = substitute(new_file, '\.rb$', '_spec.rb', '')
-    let new_file = 'spec/' . new_file
-  else
-    let new_file = substitute(new_file, '_spec\.rb$', '.rb', '')
-    let new_file = substitute(new_file, '^spec/', '', '')
-    if in_app
-      let new_file = 'app/' . new_file
-    end
-  endif
-  return new_file
+let current_file = expand("%")
+let new_file = current_file
+let in_spec = match(current_file, '^spec/') != -1
+let going_to_spec = !in_spec
+let in_app = match(current_file, '\<controllers\>') != -1 || match(current_file, '\<exhibits\>') != -1 || match(current_file, '\<services\>') != -1 || match(current_file, '\<models\>') != -1 || match(current_file, '\<views\>') != -1
+if going_to_spec
+  if in_app
+    let new_file = substitute(new_file, '^app/', '', '')
+  end
+  let new_file = substitute(new_file, '\.rb$', '_spec.rb', '')
+  let new_file = 'spec/' . new_file
+else
+  let new_file = substitute(new_file, '_spec\.rb$', '.rb', '')
+  let new_file = substitute(new_file, '^spec/', '', '')
+  if in_app
+    let new_file = 'app/' . new_file
+  end
+endif
+return new_file
 endfunction
 nnoremap <leader>et :call OpenTestAlternate()<cr>
 
@@ -152,7 +154,7 @@ function! RunTestFile(...)
     endif
 
     " Run the tests for the previously-marked file.
-    let in_test_file = match(expand("%"), '\(.feature\|_spec.rb\)$') != -1
+    let in_test_file = match(expand("%"), '\(.feature\|_spec.rb\|test.js\)$') != -1
     if in_test_file
         call SetTestFile()
     elseif !exists("t:grb_test_file")
@@ -182,6 +184,8 @@ function! RunTests(filename)
     :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
     if match(a:filename, '\.feature$') != -1
         exec ":!script/acceptance " . a:filename
+    elseif match(a:filename, '\.js$') != -1
+        exec ":!npm run test"
     else
         if filereadable("script/test.rb")
             exec ":!ruby script/test.rb " . a:filename
