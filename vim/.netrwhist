@@ -1,4 +1,7 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =2
-let g:netrw_dirhist_1='/Users/chrisfrank/code/revlove-vday/public/sass/modules'
-let g:netrw_dirhist_2='/Users/chrisfrank/code/momentous/.git'
+let g:netrw_dirhist_cnt =5
+let g:netrw_dirhist_1='/Users/chrisfrank/code/dreamly/client/src/screens/Dashboard'
+let g:netrw_dirhist_2='/Users/chrisfrank/code/dreamly/client/src/screens/People'
+let g:netrw_dirhist_3='/Users/chrisfrank/code/dreamly/client/src/components/Layout'
+let g:netrw_dirhist_4='/Users/chrisfrank/code/dreamly/client/src/screens/Auth'
+let g:netrw_dirhist_5='/Users/chrisfrank/code/dreamly/client/src/elements/Panel'

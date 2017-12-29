@@ -17,10 +17,7 @@ set backspace=indent,eol,start
 set laststatus=2
 set number
 set nowrap
-"set background=light
-"let g:solarized_termcolors=256
-"colorscheme solarized
-"
+
 " interpret jBuilder as ruby
 au BufRead,BufNewFile *.jbuilder set filetype=ruby syntax=ruby
 " interprest EJS as html
@@ -39,12 +36,6 @@ set smarttab
 " textmate style whitespace charts (show tabs and spaces)
 set list listchars=tab:▸\ ,trail:· "show trailing whitespace
 
-" Folding settings
-"set foldmethod=syntax
-"set foldnestmax=5
-"set foldlevel=50
-"set foldcolumn=0
-
 " Disables matchparen -- for performance reasons
 let loaded_matchparen = 1
 " Don't show character matches (maybe for performance reasons?)
@@ -57,13 +48,10 @@ set incsearch
 set hlsearch
 nnoremap <leader><space> :noh<cr>
 
-" redraw screen quickly
-"nmap <leader>r :redraw!<cr>
-
-" rack console
-nmap <leader>c :w \| !rake console<cr>
-" start server
-nmap <leader>s :w \| !rake start<cr>
+" run bin/console from leader-c
+nmap <leader>c :w \| !bin/console<cr>
+" run bin/server from leader-s
+nmap <leader>s :w \| !bin/server<cr>
 
 " disable help key
 inoremap <F1> <ESC>
@@ -100,51 +88,18 @@ augroup END
 " Plugin config
 " --------------------------------------------------------
 
-" Setup leader for Ack
-nnoremap <leader>a :Ack
+" Setup leader for silver searcher
+nnoremap <leader>a :ag
 
 " --------------------------------------------------------
 " Ruby test runner
 " --------------------------------------------------------
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" SWITCH BETWEEN TEST AND PRODUCTION CODE
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! OpenTestAlternate()
-let new_file = AlternateForCurrentFile()
-exec ':e ' . new_file
-endfunction
-function! AlternateForCurrentFile()
-let current_file = expand("%")
-let new_file = current_file
-let in_spec = match(current_file, '^spec/') != -1
-let going_to_spec = !in_spec
-let in_app = match(current_file, '\<controllers\>') != -1 || match(current_file, '\<exhibits\>') != -1 || match(current_file, '\<services\>') != -1 || match(current_file, '\<models\>') != -1 || match(current_file, '\<views\>') != -1
-if going_to_spec
-  if in_app
-    let new_file = substitute(new_file, '^app/', '', '')
-  end
-  let new_file = substitute(new_file, '\.rb$', '_spec.rb', '')
-  let new_file = 'spec/' . new_file
-else
-  let new_file = substitute(new_file, '_spec\.rb$', '.rb', '')
-  let new_file = substitute(new_file, '^spec/', '', '')
-  if in_app
-    let new_file = 'app/' . new_file
-  end
-endif
-return new_file
-endfunction
-nnoremap <leader>et :call OpenTestAlternate()<cr>
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " RUNNING TESTS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 map <leader>t :call RunTestFile()<cr>
 map <leader>rt :call RunNearestTest()<cr>
-map <leader>. :call RunTests('')<cr>
-"map <leader>c :w\|:!script/acceptance<cr>
-map <leader>w :w\|:!script/acceptance --profile wip<cr>
 
 function! RunTestFile(...)
     if a:0
@@ -154,7 +109,7 @@ function! RunTestFile(...)
     endif
 
     " Run the tests for the previously-marked file.
-    let in_test_file = match(expand("%"), '\(.feature\|_spec.rb\|test.js\)$') != -1
+    let in_test_file = match(expand("%"), '\(.feature\|_spec.rb\|_benchmark.rb\)$') != -1
     if in_test_file
         call SetTestFile()
     elseif !exists("t:grb_test_file")
@@ -172,59 +127,3 @@ function! SetTestFile()
     " Set the spec file that tests will be run for.
     let t:grb_test_file=@%
 endfunction
-
-function! RunTests(filename)
-    " Write the file and run tests for the given filename
-    :w
-    :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-    :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-    :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-    :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-    :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-    :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
-    if match(a:filename, '\.feature$') != -1
-        exec ":!script/acceptance " . a:filename
-    elseif match(a:filename, '\.js$') != -1
-        exec ":!npm run test"
-    else
-        if filereadable("script/test.rb")
-            exec ":!ruby script/test.rb " . a:filename
-        elseif filereadable("Gemfile")
-            exec ":!bundle exec rspec --color " . a:filename
-        else
-            exec ":!rspec --color " . a:filename
-        end
-    end
-endfunction
-
-function! WordProcessorMode()
-    setlocal formatoptions=t1
-    setlocal textwidth=80
-    setlocal smartindent
-    setlocal spell spelllang=en_us
-    setlocal noexpandtab
-    execute 'topleft' ((&columns - &textwidth) / 2 - 1) . 'vsplit _paddding_' | wincmd p
-endfunction
-
-let g:centerinscreen_active = 0
-function! ToggleCenterInScreen(desired_width)
-  if g:centerinscreen_active == 0
-    let l:window_width = winwidth(winnr())
-    let l:sidepanel_width = (l:window_width - a:desired_width) / 2
-    exec("silent leftabove " . l:sidepanel_width . "vsplit __padding__")
-    wincmd l
-    exec("silent rightbelow " . l:sidepanel_width . "vsplit __padding__")
-    wincmd h
-    let g:centerinscreen_active = 1
-  else
-    wincmd h
-    close
-    wincmd l
-    close
-    let g:centerinscreen_active = 0
-  endif
-endfunction
-
-com! WP call WordProcessorMode()
-com! C call ToggleCenterInScreen(100)
-
