@@ -127,3 +127,11 @@ function! SetTestFile()
     " Set the spec file that tests will be run for.
     let t:grb_test_file=@%
 endfunction
+
+function! RunTests(filename)
+  if filereadable("Gemfile")
+    exec ":!bundle exec rspec --color " . a:filename
+  else
+    exec ":!rspec --color " . a:filename
+  end
+endfunction
