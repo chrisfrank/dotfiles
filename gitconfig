@@ -1,8 +1,8 @@
 [user]
 	name = Chris Frank
-	email = chris@thenepotist.com
+	email = chris.frank@future.com
 [core]
-	excludesfile = /home/ubuntu/.gitignore_global
+	excludesfile = ~/.gitignore_global
 [filter "media"]
 	clean = git-media-clean %f
 	smudge = git-media-smudge %f

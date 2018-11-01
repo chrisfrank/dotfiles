@@ -1,7 +1,0 @@
-eval "$(rbenv init -)"
-export PATH="$HOME/.rbenv/bin:$PATH"
-export PATH="$PATH:$(yarn global bin)"
-alias rake="noglob bundle exec rake"
-alias jekyll="bundle exec jekyll serve"
-alias hot="customdisplayprofiles set ~/Library/ColorSync/Profiles/Warm.icc"
-alias cold="customdisplayprofiles set ~/Library/ColorSync/Profiles/Cool.icc"

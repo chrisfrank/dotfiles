@@ -18,10 +18,6 @@ set laststatus=2
 set number
 set nowrap
 
-" interpret jBuilder as ruby
-au BufRead,BufNewFile *.jbuilder set filetype=ruby syntax=ruby
-" interprest EJS as html
-au BufNewFile,BufRead *.ejs set filetype=html
 " highlight jsx syntax in .js files
 let g:jsx_ext_required = 0
 
@@ -31,7 +27,7 @@ set shiftwidth=2
 set softtabstop=2
 set expandtab
 set smarttab
-"set colorcolumn=80
+set colorcolumn=80
 
 " textmate style whitespace charts (show tabs and spaces)
 set list listchars=tab:▸\ ,trail:· "show trailing whitespace
@@ -53,10 +49,6 @@ nmap <leader>c :w \| !bin/console<cr>
 " run bin/server from leader-s
 nmap <leader>s :w \| !bin/server<cr>
 
-" disable help key
-inoremap <F1> <ESC>
-nnoremap <F1> <ESC>
-vnoremap <F1> <ESC>
 " --------------------------------------------------------
 " Splits!
 " --------------------------------------------------------
@@ -91,47 +83,9 @@ augroup END
 " Setup leader for silver searcher
 nnoremap <leader>a :ag
 
-" --------------------------------------------------------
-" Ruby test runner
-" --------------------------------------------------------
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" RUNNING TESTS
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-map <leader>t :call RunTestFile()<cr>
-map <leader>rt :call RunNearestTest()<cr>
-
-function! RunTestFile(...)
-    if a:0
-        let command_suffix = a:1
-    else
-        let command_suffix = ""
-    endif
-
-    " Run the tests for the previously-marked file.
-    let in_test_file = match(expand("%"), '\(.feature\|_spec.rb\|_benchmark.rb\)$') != -1
-    if in_test_file
-        call SetTestFile()
-    elseif !exists("t:grb_test_file")
-        return
-    end
-    call RunTests(t:grb_test_file . command_suffix)
-endfunction
-
-function! RunNearestTest()
-    let spec_line_number = line('.')
-    call RunTestFile(":" . spec_line_number . " -b")
-endfunction
-
-function! SetTestFile()
-    " Set the spec file that tests will be run for.
-    let t:grb_test_file=@%
-endfunction
-
-function! RunTests(filename)
-  if filereadable("Gemfile")
-    exec ":!bundle exec rspec --color " . a:filename
-  else
-    exec ":!rspec --color " . a:filename
-  end
-endfunction
+" Run tests via janko-m/vim-test
+nmap <silent> t<C-n> :TestNearest<CR> " t Ctrl+n
+nmap <silent> t<C-f> :TestFile<CR>    " t Ctrl+f
+nmap <silent> t<C-s> :TestSuite<CR>   " t Ctrl+s
+nmap <silent> t<C-l> :TestLast<CR>    " t Ctrl+l
+nmap <silent> t<C-g> :TestVisit<CR>   " t Ctrl+g
