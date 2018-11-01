@@ -1,5 +1,5 @@
 call pathogen#infect()
-filetype plugin indent on
+"filetype plugin indent on
 syntax on
 set nocompatible
 set modelines=0
@@ -70,12 +70,6 @@ nnoremap <C-k> <C-w>k
 " leader-v to open vimrc in a split
 nmap <leader>ev :sp ~/.vimrc<cr>
 
-" Automatically reload vimrc on save
-augroup myvimrchooks
-au!
-autocmd bufwritepost .vimrc source ~/.vimrc
-augroup END
-
 " --------------------------------------------------------
 " Plugin config
 " --------------------------------------------------------
@@ -84,8 +78,8 @@ augroup END
 nnoremap <leader>a :ag
 
 " Run tests via janko-m/vim-test
-nmap <silent> t<C-n> :TestNearest<CR> " t Ctrl+n
-nmap <silent> t<C-f> :TestFile<CR>    " t Ctrl+f
-nmap <silent> t<C-s> :TestSuite<CR>   " t Ctrl+s
-nmap <silent> t<C-l> :TestLast<CR>    " t Ctrl+l
-nmap <silent> t<C-g> :TestVisit<CR>   " t Ctrl+g
+nmap t<C-n> :TestNearest<CR>
+nmap t<C-f> :TestFile<CR>
+nmap t<C-s> :TestSuite<CR>
+nmap t<C-l> :TestLast<CR>
+nmap t<C-g> :TestVisit<CR>
