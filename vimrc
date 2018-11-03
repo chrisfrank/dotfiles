@@ -28,6 +28,7 @@ set softtabstop=2
 set expandtab
 set smarttab
 set colorcolumn=80
+hi ColorColumn ctermbg=7
 
 " textmate style whitespace charts (show tabs and spaces)
 set list listchars=tab:▸\ ,trail:· "show trailing whitespace
