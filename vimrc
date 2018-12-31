@@ -28,7 +28,10 @@ set softtabstop=2
 set expandtab
 set smarttab
 set colorcolumn=80
-hi ColorColumn ctermbg=7
+set background=dark
+colorscheme gruvbox
+let g:gruvbox_contrast_dark="medium"
+let g:gruvbox_contrast_light="hard"
 
 " textmate style whitespace charts (show tabs and spaces)
 set list listchars=tab:▸\ ,trail:· "show trailing whitespace
