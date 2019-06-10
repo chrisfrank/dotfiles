@@ -1,6 +1,6 @@
 [user]
 	name = Chris Frank
-	email = chris.frank@future.com
+	email = chris.frank@nytimes.com
 [core]
 	excludesfile = ~/.gitignore_global
 [filter "media"]
