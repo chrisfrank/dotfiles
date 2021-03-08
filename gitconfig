@@ -6,3 +6,12 @@
 [filter "media"]
 	clean = git-media-clean %f
 	smudge = git-media-smudge %f
+[merge]
+	tool = vimdiff
+[url "git@github.com:"]
+  insteadOf = https://github.com/
+
+[pull]
+	rebase = false
+[mergetool]
+	keepBackup = false

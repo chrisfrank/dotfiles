@@ -20,6 +20,9 @@ set nowrap
 
 " highlight jsx syntax in .js files
 let g:jsx_ext_required = 0
+" improve python syntax highlighting
+let g:python_highlight_all = 1
+let g:markdown_fenced_languages = ['python']
 
 " Default indentation settings
 set tabstop=2
@@ -28,13 +31,15 @@ set softtabstop=2
 set expandtab
 set smarttab
 set colorcolumn=80
-set background=dark
-colorscheme gruvbox
-let g:gruvbox_contrast_dark="medium"
-let g:gruvbox_contrast_light="hard"
+set termguicolors
+"set background=dark
+"colorscheme gruvbox8
+set background=light
+colorscheme solarized8
 
 " textmate style whitespace charts (show tabs and spaces)
 set list listchars=tab:▸\ ,trail:· "show trailing whitespace
+autocmd Filetype go setlocal nolist
 
 " Disables matchparen -- for performance reasons
 let loaded_matchparen = 1
