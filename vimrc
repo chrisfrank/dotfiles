@@ -1,4 +1,4 @@
-call pathogen#infect()
+" call pathogen#infect()
 filetype plugin indent on
 syntax on
 set nocompatible
@@ -31,14 +31,15 @@ set softtabstop=2
 set expandtab
 set smarttab
 set colorcolumn=80
-set termguicolors
-"set background=dark
-"colorscheme gruvbox8
+
+" Theme
 set background=light
-colorscheme solarized8
+colorscheme solarized
 
 " textmate style whitespace charts (show tabs and spaces)
 set list listchars=tab:▸\ ,trail:· "show trailing whitespace
+
+" Streamline Go indentation
 autocmd Filetype go setlocal nolist
 
 " Disables matchparen -- for performance reasons
