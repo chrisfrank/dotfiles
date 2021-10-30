@@ -1,4 +1,3 @@
-" call pathogen#infect()
 filetype plugin indent on
 syntax on
 set nocompatible
@@ -17,6 +16,7 @@ set backspace=indent,eol,start
 set laststatus=2
 set number
 set nowrap
+set noswapfile
 
 " highlight jsx syntax in .js files
 let g:jsx_ext_required = 0
