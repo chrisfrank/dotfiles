@@ -15,3 +15,5 @@
 	rebase = false
 [mergetool]
 	keepBackup = false
+[init]
+	defaultBranch = main
