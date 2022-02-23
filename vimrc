@@ -25,7 +25,7 @@ let g:python_highlight_all = 1
 let g:markdown_fenced_languages = ['python']
 
 " Default indentation settings
-set tabstop=2
+set tabstop=4
 set shiftwidth=2
 set softtabstop=2
 set expandtab
