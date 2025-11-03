@@ -1,5 +1,6 @@
 filetype plugin indent on
 syntax on
+set omnifunc=syntaxcomplete#Complete
 set nocompatible
 set modelines=0
 set encoding=utf-8
@@ -11,7 +12,6 @@ set hidden
 set wildmenu
 set wildmode=list:longest
 set visualbell
-set ttyfast
 set backspace=indent,eol,start
 set laststatus=2
 set number
@@ -20,11 +20,16 @@ set noswapfile
 
 " highlight jsx syntax in .js files
 let g:jsx_ext_required = 0
-" improve python syntax highlighting
-let g:python_highlight_all = 1
-let g:markdown_fenced_languages = ['python']
+let g:markdown_fenced_languages = ['go', 'javascript', 'typescript']
 
-" Default indentation settings
+" Go syntax highlighting
+let g:go_highlight_fields = 1
+"let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
+"let g:go_highlight_extra_types = 1
+let g:go_highlight_operators = 1
+
+" Default indentation settings (for JS/TS)
 set tabstop=4
 set shiftwidth=2
 set softtabstop=2
@@ -32,20 +37,17 @@ set expandtab
 set smarttab
 set colorcolumn=80
 
+autocmd Filetype go setlocal noexpandtab
+
 " Theme
 set background=light
 colorscheme solarized
+set termguicolors
+"highlight LineNr ctermbg=NONE guibg=NONE
 
 " textmate style whitespace charts (show tabs and spaces)
 set list listchars=tab:▸\ ,trail:· "show trailing whitespace
-
-" Streamline Go indentation
 autocmd Filetype go setlocal nolist
-
-" Disables matchparen -- for performance reasons
-let loaded_matchparen = 1
-" Don't show character matches (maybe for performance reasons?)
-set noshowmatch
 
 " Friendlier search defaults
 set ignorecase
@@ -53,11 +55,6 @@ set smartcase
 set incsearch
 set hlsearch
 nnoremap <leader><space> :noh<cr>
-
-" run bin/console from leader-c
-nmap <leader>c :w \| !bin/console<cr>
-" run bin/server from leader-s
-nmap <leader>s :w \| !bin/server<cr>
 
 " --------------------------------------------------------
 " Splits!
